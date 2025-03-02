@@ -32,16 +32,10 @@ const startApolloServer = async () => {
   ));
 
   // This conditionally serves static files when the application is in production mode.
-  // In production mode, Express serves the frontend directly from the `client/dist` folder, which contains the npm run build` build
-  // This allows the backend to serve both API requests and the frontend from the same server.
-  // In development, this is not needed because the frontend runs separately using a development server.
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(process.cwd(), '../client/dist')));
 
     // Serve the React app for all unmatched routes
-    // If a user navigates to an undefined route `/banana`, Express serves index.html instead of returning a 404 error
-    // This allows React Router to handle routing on the frontend, displaying the correct page or a 404 message if no route matches.
-    // If React Router doesn't have a matching route, it will display a "Not Found" page (if implemented).
     app.get('*', (_req: Request, res: Response) => {
       res.sendFile(path.join(process.cwd(), '../client/dist/index.html'));
     });

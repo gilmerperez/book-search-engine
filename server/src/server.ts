@@ -1,12 +1,11 @@
+import express from 'express';
 import path from 'node:path';
-import db from './config/connection.js'; // Import the database connection function
+import type { Request, Response } from 'express';
+import db from './config/connection.js' // Import the database connection function
 import { ApolloServer } from '@apollo/server'; // Import Apollo Server for GraphQL
-import { authenticateToken } from './utils/auth.js'; // Import authentication middleware
-import express, { Request, Response } from 'express';
-import { typeDefs, resolvers } from './schemas/index.js'; // Import GraphQL schema and resolvers
 import { expressMiddleware } from '@apollo/server/express4'; // Middleware to connect Apollo Server with Express
-
-// import routes from './routes/index.js';
+import { typeDefs, resolvers } from './schemas/index.js'; // Import GraphQL schema and resolvers
+import { authenticateToken } from './utils/auth.js'; // Import authentication middleware
 
 // Create an instance of Apollo Server with type definitions and resolvers
 const server = new ApolloServer({
@@ -24,6 +23,7 @@ const startApolloServer = async () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
+  // Set up GraphQL API endpoint with authentication context
   app.use('/graphql', expressMiddleware(server,
     {
       context: authenticateToken // Attach authentication logic to GraphQL context
@@ -42,9 +42,8 @@ const startApolloServer = async () => {
   }
 
   app.listen(PORT, () => {
-    console.log(`API server running on port ${PORT}!`);
+    console.log(`🌍 API server now running on localhost:${PORT}!`);
     console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
-    app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
   });
 };
 

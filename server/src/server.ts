@@ -14,37 +14,42 @@ const server = new ApolloServer({
 });
 
 const startApolloServer = async () => {
-  await server.start();
-  await db();
+  try {
+    await db(); // Ensure the database is connected before starting the server
+    await server.start();
 
-  const PORT = process.env.PORT || 3001;
-  const app = express();
+    const PORT = process.env.PORT || 3001;
+    const app = express();
 
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
 
-  // Set up GraphQL API endpoint with authentication context
-  app.use('/graphql', expressMiddleware(server,
-    {
-      context: authenticateToken // Attach authentication logic to GraphQL context
-      // This way we are able to use this validation logic when making requests and sending responses
+    // Set up GraphQL API endpoint with authentication context
+    app.use('/graphql', expressMiddleware(server,
+      {
+        context: authenticateToken // Attach authentication logic to GraphQL context
+        // This way we are able to use this validation logic when making requests and sending responses
+      }
+    ));
+
+    // This conditionally serves static files when the application is in production mode.
+    if (process.env.NODE_ENV === 'production') {
+      app.use(express.static(path.join(process.cwd(), '../client/dist')));
+
+      // Serve the React app for all unmatched routes
+      app.get('*', (_req: Request, res: Response) => {
+        res.sendFile(path.join(process.cwd(), '../client/dist/index.html'));
+      });
     }
-  ));
 
-  // This conditionally serves static files when the application is in production mode.
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(process.cwd(), '../client/dist')));
-
-    // Serve the React app for all unmatched routes
-    app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.join(process.cwd(), '../client/dist/index.html'));
+    app.listen(PORT, () => {
+      console.log(`🌍 API server now running on localhost:${PORT}!`);
+      console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
     });
-  }
 
-  app.listen(PORT, () => {
-    console.log(`🌍 API server now running on localhost:${PORT}!`);
-    console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
-  });
+  } catch (error) {
+    console.error('Error starting server:', error);
+  }
 };
 
 startApolloServer();

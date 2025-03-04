@@ -34,6 +34,11 @@ export const signToken = (username: string, email: string, _id: unknown) => {
   const payload = { username, email, _id }; // Store essential user info in the payload
   const secretKey: any = process.env.JWT_SECRET_KEY;
 
+  // Throw an error if the secret key is missing
+  if (!secretKey) {
+    throw new Error('JWT_SECRET_KEY is not defined in environment variables');
+  }
+
   return jwt.sign({ data: payload }, secretKey, { expiresIn: '2h' });
 };
 

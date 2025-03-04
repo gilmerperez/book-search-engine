@@ -10,12 +10,10 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { searchGoogleBooks } from '../utils/API';
+import { saveBook, searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import type { Book } from '../models/Book';
 import type { GoogleAPIBook } from '../models/GoogleAPIBook';
-import { useMutation } from '@apollo/client';
-import { SAVE_BOOK } from '../utils/mutations';
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -77,12 +75,9 @@ const SearchBooks = () => {
     }
 
     try {
-      const [saveBook] = useMutation(SAVE_BOOK);
-      const { data } = await saveBook({
-        variables: { bookData: bookToSave },
-      });
+      const response = await saveBook(bookToSave, token);
 
-      if (!data) {
+      if (!response.ok) {
         throw new Error('something went wrong!');
       }
 

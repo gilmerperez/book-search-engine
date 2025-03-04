@@ -23,6 +23,7 @@ export const authenticateToken = ({ req }: any) => {
     req.user = data; // Attach the user data to the request object for further processing
   } catch (err) {
     console.log('Invalid token');
+    throw new AuthenticationError('Invalid or expired token');
   }
 
   return req; // Return the request object (with or without user data)

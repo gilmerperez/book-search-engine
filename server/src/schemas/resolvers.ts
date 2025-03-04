@@ -85,11 +85,11 @@ const resolvers = {
         throw new AuthenticationError('You need to be logged in!');
       }
 
-      const book = await User.create({ ...input });
+      const book = { ...input };
 
       const updatedUser = await User.findOneAndUpdate(
         { _id: context.user._id },
-        { $addToSet: { savedBooks: book._id } },
+        { $addToSet: { savedBooks: book } },
         { new: true, runValidators: true }
       );
 

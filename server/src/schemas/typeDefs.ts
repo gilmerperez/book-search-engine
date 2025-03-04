@@ -6,7 +6,7 @@ const typeDefs = gql`
     _id: ID
     username: String
     email: String
-    bookCount: Number
+    bookCount: Int
     savedBooks: [Book] # This will be an array of the Book type
   }
 
@@ -50,7 +50,7 @@ const typeDefs = gql`
     saveBook(input: saveBookInput): User
 
     # Accepts a book's bookId as a parameter; returns a User type
-    removeBook(bookId: ID!) User
+    removeBook(bookId: ID!): User
   }
 `;
 

@@ -1,11 +1,12 @@
 import express from 'express';
 import path from 'node:path';
 import type { Request, Response } from 'express';
-import db from './config/connection.js' // Import the database connection function
+import db from './config/connection.js'; // Import the database connection function
 import { ApolloServer } from '@apollo/server'; // Import Apollo Server for GraphQL
 import { expressMiddleware } from '@apollo/server/express4'; // Middleware to connect Apollo Server with Express
 import { typeDefs, resolvers } from './schemas/index.js'; // Import GraphQL schema and resolvers
 import { authenticateToken } from './utils/auth.js'; // Import authentication middleware
+import cors from 'cors'; // Import CORS middleware for cross-origin requests
 
 // Create an instance of Apollo Server with type definitions and resolvers
 const server = new ApolloServer({
@@ -16,21 +17,23 @@ const server = new ApolloServer({
 const startApolloServer = async () => {
   try {
     await db(); // Ensure the database is connected before starting the server
+    console.log('Connected to the database successfully!'); // Log successful DB connection
     await server.start();
 
     const PORT = process.env.PORT || 3001;
     const app = express();
 
+    // Enable CORS to allow cross-origin requests (useful for development)
+    app.use(cors());
+
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
 
     // Set up GraphQL API endpoint with authentication context
-    app.use('/graphql', expressMiddleware(server,
-      {
-        context: authenticateToken // Attach authentication logic to GraphQL context
-        // This way we are able to use this validation logic when making requests and sending responses
-      }
-    ));
+    app.use('/graphql', expressMiddleware(server, {
+      context: authenticateToken // Attach authentication logic to GraphQL context
+      // This way we are able to use this validation logic when making requests and sending responses
+    }));
 
     // This conditionally serves static files when the application is in production mode.
     if (process.env.NODE_ENV === 'production') {

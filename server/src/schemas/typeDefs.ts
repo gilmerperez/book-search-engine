@@ -36,6 +36,7 @@ const typeDefs = gql`
   # Queries allow users to retrieve data from the server
   type Query {
     me: User # Get the currently authenticated user's details
+    getSingleUser(username: String!): User
   }
 
   # Mutations allow users to modify data on the server
@@ -44,13 +45,13 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
 
     # Accepts a username, email, and password as parameters; returns an Auth type
-    addUser(username: String!, email: String!, password: String!): Auth
+    createUser(username: String!, email: String!, password: String!): Auth
 
     # Accepts a book author's array, description, title, bookId, image, and link as parameters; returns a User type. (Look into creating what's known as an input type to handle all of these parameters!)
     saveBook(input: saveBookInput): User
 
     # Accepts a book's bookId as a parameter; returns a User type
-    removeBook(bookId: ID!): User
+    deleteBook(bookId: ID!): User
   }
 `;
 

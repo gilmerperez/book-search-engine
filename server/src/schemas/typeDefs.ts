@@ -24,24 +24,21 @@ const typeDefs = gql`
     user: User # The authenticated user details, references the User type
   }
 
-  input saveBookInput {
-    authors: [String]
+  # Input type to handle user data for creating a user
+  input AddUserInput {
+    username: String!
+    email: String!
+    password: String!
+  }
+
+  # Input type for book information to be saved
+  input BookInput {
+    bookId: ID!
+    authors: [String]!
     description: String
     title: String
-    bookId: ID
     image: String
     link: String
-  }
-
-  input AddUserInput {
-  username: String!
-  email: String!
-  password: String!
-  }
-
-  input BookInput {
-  bookText: String!
-  bookAuthor: String!
   }
 
   # Queries allow users to retrieve data from the server
@@ -58,10 +55,10 @@ const typeDefs = gql`
     # Accepts a username, email, and password as parameters; returns an Auth type
     createUser(input: AddUserInput!): Auth
 
-    # Accepts a book author's array, description, title, bookId, image, and link as parameters; returns a User type. (Look into creating what's known as an input type to handle all of these parameters!)
+    # Accepts a book's information as parameters and returns the updated User
     saveBook(input: BookInput!): User
 
-    # Accepts a book's bookId as a parameter; returns a User type
+    # Accepts a book's bookId as a parameter and removes it from the user's savedBooks
     deleteBook(bookId: ID!): User
   }
 `;

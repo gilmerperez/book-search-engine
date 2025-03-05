@@ -3,15 +3,15 @@ import gql from 'graphql-tag';
 // Define the GraphQL schema
 const typeDefs = gql`
   type User {
-    _id: ID
-    username: String
-    email: String
-    bookCount: Int
+    _id: ID!
+    username: String!
+    email: String!
+    bookCount: Int!
     savedBooks: [Book] # This will be an array of the Book type
   }
 
   type Book {
-    bookId: ID # Not the _id, but the book's id value returned from Google's Book API
+    bookId: ID! # Not the _id, but the book's id value returned from Google's Book API
     authors: [String] # An array of strings, as there may be more than one author
     description: String
     title: String
@@ -33,6 +33,17 @@ const typeDefs = gql`
     link: String
   }
 
+  input AddUserInput {
+  username: String!
+  email: String!
+  password: String!
+  }
+
+  input BookInput {
+  bookText: String!
+  bookAuthor: String!
+  }
+
   # Queries allow users to retrieve data from the server
   type Query {
     me: User # Get the currently authenticated user's details
@@ -45,10 +56,10 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
 
     # Accepts a username, email, and password as parameters; returns an Auth type
-    createUser(username: String!, email: String!, password: String!): Auth
+    createUser(input: AddUserInput!): Auth
 
     # Accepts a book author's array, description, title, bookId, image, and link as parameters; returns a User type. (Look into creating what's known as an input type to handle all of these parameters!)
-    saveBook(input: saveBookInput): User
+    saveBook(input: BookInput!): User
 
     # Accepts a book's bookId as a parameter; returns a User type
     deleteBook(bookId: ID!): User

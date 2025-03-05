@@ -41,7 +41,7 @@ const SignupForm = ({ handleModalClose }: { handleModalClose: () => void }) => {
     try {
       // Use the ADD_USER mutation to create the user
       const { data } = await createUser({
-        variables: { ...userFormData },
+        variables: { input: { ...userFormData } },
       });
 
       // Get the token from the response and log the user in

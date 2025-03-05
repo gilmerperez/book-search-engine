@@ -15,7 +15,7 @@ export const LOGIN_USER = gql`
 
 // ADD_USER will execute the createUser mutation
 export const ADD_USER = gql`
-  mutation createUser($input: UserInput!) {
+  mutation createUser($input: AddUserInput!) {
     createUser(input: $input) {
       user {
       username

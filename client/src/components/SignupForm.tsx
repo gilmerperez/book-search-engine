@@ -20,7 +20,7 @@ const SignupForm = ({ handleModalClose }: { handleModalClose: () => void }) => {
   // Set state for alert
   const [showAlert, setShowAlert] = useState(false);
   // Define the ADD_USER mutation
-  const [addUser] = useMutation(ADD_USER);
+  const [createUser] = useMutation(ADD_USER);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -40,12 +40,12 @@ const SignupForm = ({ handleModalClose }: { handleModalClose: () => void }) => {
 
     try {
       // Use the ADD_USER mutation to create the user
-      const { data } = await addUser({
+      const { data } = await createUser({
         variables: { ...userFormData },
       });
 
       // Get the token from the response and log the user in
-      const { token } = data.addUser;
+      const { token } = data.createUser;
       Auth.login(token);
 
       // Close the modal after successful signup (if provided)

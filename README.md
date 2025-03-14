@@ -18,15 +18,33 @@ This project provides an excellent demonstration of how modern web applications 
 
 ## Usage
 
-To run the application locally, follow these steps:
+To start the application, run the following command in your terminal:
 
-1. Clone the repository: `git clone https://github.com/gilmerperez/book-search-engine.git`
+### 1. Clone the repository
 
-2. Navigate to the project directory: `cd book-search-engine`
+```bash
+git clone git@github.com:gilmerperez/book-search-engine.git
+```
 
-3. Install dependencies for both the front end and back end: `npm install` (from the project root directory)
+### 2. Navigate to the project directory
 
-4. Start the server: `npm run start:dev` (This will start both the client and server)
+```bash
+cd book-search-engine
+```
+
+### 3. Install dependencies for both the Front-End and Back-End
+
+From the project root directory run:
+```bash
+npm install
+```
+
+### 4. Start the server
+
+This will start both the client and server:
+```bash
+npm run start:dev
+```
 
 The application should now be running at [http://localhost:3000](http://localhost:3000).
 
@@ -35,51 +53,32 @@ The application should now be running at [http://localhost:3000](http://localhos
 The following images demonstrate how the web application works:
 
 As you can see in the following animation, a user can type a search term for example, "Star Wars" in a search box and the results appear:
-
 ![Animation shows "Star Wars" typed into a search box and books about Star Wars appearing as results](./assets/18-mern-homework-demo-01.gif)
 
 The user can save books by clicking "Save This Book!" under each search result, as shown in the following animation:
-
 ![Animation shows user clicking "Save This Book!" button to save books that appear in search results. The button label changes to "Book Already Saved" after it is clicked and the book is saved](./assets/18-mern-homework-demo-02.gif)
 
 A user can view their saved books on a separate page, as shown in the following animation:
-
 ![Animation shows the books that the user has saved](./assets/18-mern-homework-demo-03.gif)
 
 ## Key Features
 
 - **User Authentication**: Users can sign up, log in, and manage their accounts securely.
-
 - **Search Books**: Users can search for books by title or author using the Google Books API.
-
 - **Save Books**: Users can save books to their account for later purchase or reading.
-
 - **View Saved Books**: Users can view and manage their saved books in their personal library.
 
 ## Technology Stack
 
 This project utilizes the following technologies:
-
 - **React**: Front-end framework for building the user interface.
-
 - **Node.js**: JavaScript runtime for executing server-side code.
-
 - **Express.js**: Web server for handling client requests and serving the API.
-
 - **MongoDB**: NoSQL database to store user information and saved books.
-
 - **JWT Authentication**: JSON Web Tokens used for secure user authentication.
-
 - **Apollo Server**: A GraphQL server used to handle data fetching and mutation.
-
 - **GraphQL**: A query language for fetching data from the server, replacing the RESTful API.
-
-
 
 ## Additional Resources
 
-- [GitHub Repository](https://github.com/gilmerperez/book-search-engine)
-
-- [Deployed Application](https://book-search-engine-u2pg.onrender.com)
-
-- [MongoDB Atlas Deployment Guide](https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas)
+Deploy with Render and MongoDB Atlas: [MongoDB Atlas Deployment Guide](https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas)
